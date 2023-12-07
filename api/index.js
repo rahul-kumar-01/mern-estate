@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRouter from './routes/user.route.js';
+import { test } from './controllers/user.controller.js';
 
 dotenv.config();
 
@@ -20,3 +22,10 @@ const app = express();
 app.listen(3000,()=>{
     console.log('Server is running');
 })
+
+
+app.get('/test',(req,res)=>{
+    return res.send('heloworld');
+})
+
+app.use('/api/user',test);

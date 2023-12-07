@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import { test } from './controllers/user.controller.js';
+import authRouter from './routes/auth.route.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO)
 
 
 const app = express();
+app.use(express.json()); // allow json as input to the server (req)
 
 
 app.listen(3000,()=>{
@@ -28,4 +30,7 @@ app.get('/test',(req,res)=>{
     return res.send('heloworld');
 })
 
+//api routes
+
 app.use('/api/user',test);
+app.use('/api/auth',authRouter);

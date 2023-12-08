@@ -27,7 +27,7 @@ app.listen(3000,()=>{
 
 
 app.get('/test',(req,res)=>{
-    return res.send('heloworld');
+    return res.send('hello world');
 })
 
 //api routes

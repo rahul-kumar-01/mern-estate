@@ -38,7 +38,7 @@ export const signin = async(req,res,next)=>{
             // expires : new Date(Date.now() + 24*60*60*1000) //24 ?
             // maxAge: 
          }
-        ).status(200).json({rest});  // here we send the valid user info also password so we have to remove it and return rest
+        ).status(200).json(rest);   // here we send the valid user info also password so we have to remove it and return rest
 
     }catch(err){
         next(err);

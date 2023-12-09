@@ -23,12 +23,13 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // setLoading(true);
-    dispatch(signInStart());
+   
 
     // const res = await fetch('/api/auth/signup' ,formData);  we have to stringfy the formdata it's not secure 
     // if error come  use try and catch to fix it in catch setEroor(err.message);
     try{
+       // setLoading(true);
+        dispatch(signInStart());
       const res = await fetch('/api/auth/signin',
       {
         method: 'POST',

@@ -29,7 +29,7 @@ export default function Header() {
               </Link>
 
               <Link to='/profile'>
-              {currentUser ? (
+              {Object.keys(currentUser).length ? (
                 <img src={currentUser.avatar} className='rounded-full h-7 w-7 object-cover' alt='profile'></img>
               ):
               (

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import {getDownloadURL, getStorage ,ref, uploadBytesResumable } from 'firebase/storage'
 import {app} from '../firebase.js'
 import { useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,useParams} from 'react-router-dom';
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -28,7 +28,24 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log(formData);
+  const params = useParams();
+
+  // console.log(formData);
+  useEffect(()=>{
+    const fetchListing = async () =>{
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if(data.success === false){
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+
+    }
+    fetchListing();
+  },[])
+
   const handleImageSubmit = (e) => {
     if(files.length > 0 && files.length + formData.imagesUrls.length < 7){
     
@@ -122,7 +139,7 @@ export default function CreateListing() {
 
       setLoading(true);
       setError(false);
-      const res = await fetch('/api/listing/create',{
+      const res = await fetch(`/api/listing/update/${params.listingId}`,{
         method : 'POST',
         headers:{
           'Content-Type' : 'application/json',
@@ -131,7 +148,7 @@ export default function CreateListing() {
           ...formData,
           userRef: currentUser._id
         })
-      });
+      });   
 
       const data = await res.json();
       setLoading(false);
@@ -347,7 +364,7 @@ export default function CreateListing() {
             ))
           }
           <button disabled={loading || uploading } className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity:80'>
-            {loading ? 'Creating...' : 'Create listing'}
+            {loading ? 'Updating...' : 'Update listing'}
           </button>
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div> 

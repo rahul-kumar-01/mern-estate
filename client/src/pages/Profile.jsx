@@ -6,6 +6,7 @@ import {getDownloadURL, getStorage ,ref, uploadBytesResumable } from 'firebase/s
 import {updateUserStart,updateUserFailure,updateUserSuccess,deleteUserFailure,deleteUserStart,deleteUserSuccess,signOutFailure,signOutStart,signOutSuccess} from "../redux/user/userSlice.js";
 import {useDispatch} from "react-redux";
 import {Link} from 'react-router-dom'
+import { getUserListings } from '../../../api/controllers/user.controller.js';
 
 
 export default function Profile() {
@@ -15,6 +16,8 @@ export default function Profile() {
   const [formData,setFormData] = useState({});
   const [fileUploadError, setFileUploadError] = useState(false);
   const [updatedSuccess , setUpdatedSuccess]  = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListing, setUserListing] = useState([]);
   // console.log(file);
   const fileRef = useRef(null);
   // console.log(formData);
@@ -112,6 +115,21 @@ export default function Profile() {
     }
   }
 
+  const handleShowListing = async () => {
+    try{
+      setShowListingError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if(data.success === false){
+        setShowListingError(true);
+        return;
+      }
+      setUserListing(data);
+    }catch(error){
+      setShowListingError(error); 
+    }
+  }
+
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -171,8 +189,47 @@ export default function Profile() {
       <p className={'text-red-700 mt-5'}>
         {error ? error : ""}
       </p>
-      <p className='text-green-700'>{updatedSuccess ? 'User updated successfully' : ""}</p>
+      <p className='text-green-700'>
+        {updatedSuccess ? 'User updated successfully' : ""}
+      </p>
+      <button onClick={handleShowListing} className='text-green-700 w-full'>Show Listing</button>
+      <p className='text-red-700 mt-5'>{showListingError ? 'Error showing listings' : ''}</p>
 
+      
+      {userListing && 
+      userListing.length > 0 &&
+      <div className='flex flex-col gap-4'>
+        <h1 className='text-center mt-7 text-2xl font-semibold'>
+          Your Listing
+        </h1>
+        {
+        userListing.map((listing) => (
+          <div className='flex items-center' key={listing._id}>
+            <Link to={`/listings/${listing.imagesUrls[0]}`}>
+                <img src={listing.imagesUrls[0]} alt="" className='h-16 w-16 object-contain'/>
+            </Link>
+
+            <Link className='text-slate-700 font-semibold hover:underline truncate flex-1 ' to={`/listing/${listing._id}`}>
+              <p>{listing.name}</p>
+            </Link>
+
+            <div className='flex flex-col items-center'>
+                <button className='text-red-700 uppercase'>Delete</button>
+                <button className='text-green-700 uppercase'>Edit</button>
+            </div>
+            <div>
+              <button>
+
+              </button>
+              <button>
+              </button>
+            </div>
+
+          </div>
+        )
+        )
+      }
+      </div>}
     </div>
   )
 }

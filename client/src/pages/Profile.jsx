@@ -18,9 +18,7 @@ export default function Profile() {
   const [updatedSuccess , setUpdatedSuccess]  = useState(false);
   const [showListingError, setShowListingError] = useState(false);
   const [userListing, setUserListing] = useState([]);
-  // console.log(file);
   const fileRef = useRef(null);
-  // console.log(formData);
   const dispatch = useDispatch();
   useEffect(()=>{
     if(file){
@@ -54,10 +52,12 @@ export default function Profile() {
   )
 
   }
+
   const handleChange = (e) => {
     setFormData({...formData,[e.target.id] : e.target.value});
 
   }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try{
@@ -220,15 +220,18 @@ export default function Profile() {
           Your Listing
         </h1>
         {
+          userListing && userListing.length > 0 &&
         userListing.map((listing) => (
           <div className='flex items-center' key={listing._id}>
-            <Link to={`/listings/${listing.imagesUrls[0]}`}>
+            <Link to={`/listing/${listing._id}`}>
                 <img src={listing.imagesUrls[0]} alt="" className='h-16 w-16 object-contain'/>
             </Link>
 
             <Link className='text-slate-700 font-semibold hover:underline truncate flex-1 ' to={`/listing/${listing._id}`}>
-              <p>{listing.name}</p>
+              <p style={{ overflow: 'hidden',textOverflow: 'ellipsis',whiteSpace: 'nowrap'}}>{listing.name}</p>
             </Link>
+
+            
 
             <div className='flex flex-col items-center'>
                 <button onClick={()=>handleListingDelete(listing._id)} className='text-red-700 uppercase'>Delete</button>

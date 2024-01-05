@@ -169,7 +169,7 @@ export default function CreateListing() {
             placeholder='Description' 
             className='border p-3 rounded-lg' 
             id='description' 
-            maxLength='62'
+            maxLength='500'
             minLength='10' 
             required
             onChange={handleChange}
@@ -193,9 +193,9 @@ export default function CreateListing() {
             <div className='flex gap-2'>
               <input 
                 type="checkbox" 
-                id='sale' 
-                className='w-5' 
-                onChange={handleChange} 
+                id='sale'
+                className='w-5'
+                onChange={handleChange}
                 checked={formData.type === "sale"}
               />
               <span>Sale</span>

@@ -12,6 +12,9 @@ export default function OAuth() {
         try{
             
             const provider = new GoogleAuthProvider();
+            provider.setCustomParameters({
+                'login_hint': 'user@example.com'
+            });
             const auth = getAuth(app);
            
             const result = await signInWithPopup(auth,provider);

@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO)
         console.log(err);
     });
 
-    const __dirname = path.resolve();
+const __dirname = path.resolve();
 
 
 const app = express();
@@ -47,7 +47,7 @@ app.use('/api/listing',listingRouter);
 app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '/client/dist/index.html'));
 })
 
 

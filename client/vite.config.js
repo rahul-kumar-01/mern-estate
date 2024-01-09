@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import laravel from 'laravel-vite-plugin';
 
 // https://vitejs.dev/config/  
 export default defineConfig({
@@ -15,7 +16,12 @@ export default defineConfig({
   build: { manifest: true, outDir: 'build'},
   base:  '/',
   root: './src',
-  plugins: [react()],
+  plugins: [
+    laravel([
+      'resources/css/app.css',
+      'resources/js/main.jsx',
+  ]),
+  ],
 })
 
 

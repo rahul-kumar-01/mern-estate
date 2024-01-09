@@ -12,11 +12,10 @@ export default defineConfig({
       },
     },
   },
-  build: { manifest: true, outDir: './dist'},
+  build: { manifest: true, outDir: 'build'},
   base:  '/',
   root: './src',
   plugins: [react()],
 })
-
 
 

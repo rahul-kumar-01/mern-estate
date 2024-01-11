@@ -49,7 +49,7 @@ export const updateListing = async (req,res,next) => {
             req.body,
             {new : true}        // you this this else you get previous one not updated one 
         );
-        return res.status(200).json(updateListing);
+        return res.status(200).json(updatedListing);
     }catch(error){
         next(error);
     }
